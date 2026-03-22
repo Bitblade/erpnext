@@ -146,6 +146,15 @@ frappe.ui.form.on("Pick List", {
 		frm.trigger("update_warehouse_property");
 		erpnext.toggle_serial_batch_fields(frm);
 
+		// Show serial_no inline field regardless of the global toggle,
+		// so scanned serials are visible. Hide the bundle/batch clutter.
+		let grid = frm.fields_dict.locations.grid;
+		grid.update_docfield_property("serial_no", "hidden", 0);
+		grid.update_docfield_property("use_serial_batch_fields", "hidden", 0);
+		grid.update_docfield_property("serial_and_batch_bundle", "hidden", 1);
+		grid.update_docfield_property("serial_and_batch_bundle", "in_list_view", 0);
+		grid.update_docfield_property("batch_no", "in_list_view", 0);
+
 		if (frm.doc.docstatus === 1) {
 			const status_completed = frm.doc.status === "Completed";
 
